@@ -1,0 +1,43 @@
+# Backend
+backend/bin/
+backend/vendor/
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Frontend - SvelteKit
+frontend/node_modules/
+frontend/.svelte-kit/
+frontend/build/
+frontend/dist/
+frontend/.env
+frontend/.env.local
+
+# Go
+*.out
+go.sum
+
+# PostgreSQL
+postgres_data/
+
+# Env
+.env
+.env.local
+!.env.example
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+npm-debug.log*
