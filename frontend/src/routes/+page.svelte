@@ -1,4 +1,22 @@
 <script lang="ts">
+  import { onMount } from 'svelte';
+  import type { PageData } from './$types';
+
+  export let data: PageData;
+
+  $: stats = data.stats;
+
+  function formatNumber(n: number): string {
+    return n.toLocaleString('en-US');
+  }
+
+  const cornerImages = ['/icons/corner.png', '/icons/corner2.png', '/icons/corner3.png'];
+  let cornerImg: string | null = null;
+
+  onMount(() => {
+    cornerImg = cornerImages[Math.floor(Math.random() * cornerImages.length)];
+  });
+
   function confirmAdult(e: MouseEvent, board: string) {
     const msg =
       board === '/b/'
@@ -31,7 +49,6 @@
       <img src="/icons/216.png" alt="216chan logo" />
       <span class="brand-text">216chan</span>
     </a>
-
     <nav class="board-nav" aria-label="Boards">
       <a href="/g/">
         <span class="code">/g/</span>
@@ -77,42 +94,28 @@
       <div class="inner">
         <hr />
 
-        <div class="motd">
-          <span class="motd-prompt">&gt; motd:</span>
-          arch btw
+        <div class="welcome-block">
+          <div class="welcome-text glitch" data-text="Welcome to 216chan">Welcome to 216chan</div>
+          <div class="welcome-sub">Tunisian imageboard — anonymous, unfiltered, community-run.</div>
         </div>
 
         <hr />
 
-        <div class="boards-grid">
-          <a href="/g/" class="board-card">
-            <div class="board-code">/g/ - General</div>
-            <div class="board-desc">General discussions and shitposting about daily life.</div>
-          </a>
-          <a href="/p/" class="board-card">
-            <div class="board-code">/p/ - Programming</div>
-            <div class="board-desc">Code, tooling and deploy errors.</div>
-          </a>
-          <a href="/v/" class="board-card">
-            <div class="board-code">/v/ - Videogames</div>
-            <div class="board-desc">YAYVIDEOGAMES!!!</div>
-          </a>
-          <a href="/s/" class="board-card">
-            <div class="board-code">/s/ - STEM</div>
-            <div class="board-desc">Fucking nerds man. Science, Math, Physics...</div>
-          </a>
-          <a href="/t/" class="board-card">
-            <div class="board-code">/t/ - Technology</div>
-            <div class="board-desc">The other nerds. Hardware, PC Builds, etc..</div>
-          </a>
-          <a href="/a/" class="board-card adult" on:click={(e) => confirmAdult(e, '/a/')}>
-            <div class="board-code">/a/ - Adult</div>
-            <div class="board-desc">For the hornballs</div>
-          </a>
-          <a href="/b/" class="board-card adult" on:click={(e) => confirmAdult(e, '/b/')}>
-            <div class="board-code">/b/ - Random</div>
-            <div class="board-desc">216chan's shithole. You can post whatever you want here (as long as it adheres to rules, retard)</div>
-          </a>
+        <div class="about-box">
+          <div class="about-title">
+            What is 216chan?
+            <img class="teto" src="/icons/teto.png" alt="teto" />
+          </div>
+          <div class="about-body">
+            <p>216chan is a Tunisian imageboard, a place where people post images and discuss whatever they want, anonymously.</p>
+            <p><a href="/g/" class="slug-link"><span class="slug">/g/</span></a> : general talk, daily life, shitposting</p>
+            <p><a href="/p/" class="slug-link"><span class="slug">/p/</span></a> : programming, dev tools, deploy pain</p>
+            <p><a href="/v/" class="slug-link"><span class="slug">/v/</span></a> : video games, reviews, game dev</p>
+            <p><a href="/s/" class="slug-link"><span class="slug">/s/</span></a> : science, math, physics for nerds</p>
+            <p><a href="/t/" class="slug-link"><span class="slug">/t/</span></a> : tech, hardware, PC builds</p>
+            <p><a href="/a/" class="slug-link"><span class="slug">/a/</span></a> : 18+ adult board</p>
+            <p><a href="/b/" class="slug-link"><span class="slug">/b/</span></a> : random, anything goes (within rules)</p>
+          </div>
         </div>
 
         <hr />
@@ -130,15 +133,28 @@
 </div>
 
 <footer class="site-footer">
-  <div class="footer-links">
-    <a href="mailto:contact@216chan.org">Contact</a>
-    <span class="footer-sep">&bull;</span>
-    <a href="https://discord.gg/tunisian" target="_blank" rel="noopener">Discord</a>
-    <span class="footer-sep">&bull;</span>
-    <a href="https://github.com/216chan/216-underwork-website" target="_blank" rel="noopener">Source Code</a>
+  <div class="footer-stats-header">Stats</div>
+  <div class="footer-stats-row">
+    <span><strong>Total Posts:</strong> {formatNumber(stats.total_posts)}</span>
+    <span><strong>Current Users:</strong> {formatNumber(stats.current_users)}</span>
+    <span><strong>Active Content:</strong> {stats.active_content}</span>
   </div>
-  <div class="footer-copy">Copyright &copy; under ground tunisians community. All rights reserved.</div>
-  <img class="corner-img" src="/icons/corner.png" alt="216chan corner" />
+
+  <nav class="footer-nav" aria-label="Site links">
+    <a href="/">Home</a>
+    <a href="/news">News</a>
+    <a href="/blog">Blog</a>
+    <a href="/faq">FAQ</a>
+    <a href="/rules">Rules</a>
+    <a href="mailto:contact@216chan.org">Contact</a>
+    <a href="https://discord.gg/tunisian" target="_blank" rel="noopener">Discord</a>
+    <a href="https://github.com/216chan/216-underwork-website" target="_blank" rel="noopener">Source</a>
+  </nav>
+
+  <div class="footer-copy">Copyright &copy; Underground Tunisians Community. All rights reserved.</div>
+  {#if cornerImg}
+    <img class="corner-img" src={cornerImg} alt="216chan corner" />
+  {/if}
 </footer>
 
 <style>
@@ -151,44 +167,48 @@
   }
 
   .header-inner {
-    max-width: 1100px;
-    margin: 0 auto;
+    width: 100%;
+    position: relative;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding: 8px 16px;
-    gap: 16px;
+    padding: 6px 16px;
+    min-height: 46px;
   }
 
   .brand {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
     text-decoration: none;
     color: #fff;
     flex-shrink: 0;
+    order: -1;
+    margin-left: 0;
+    z-index: 1;
   }
 
   .brand img {
-    width: 30px;
-    height: 30px;
+    width: 28px;
+    height: 28px;
     display: block;
     image-rendering: pixelated;
   }
 
   .brand-text {
     font-weight: 700;
-    font-size: 20px;
+    font-size: 18px;
     letter-spacing: 1px;
     line-height: 1;
   }
 
   .board-nav {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 2px;
-    flex: 1;
     flex-wrap: wrap;
   }
 
@@ -200,7 +220,7 @@
     align-items: center;
     padding: 4px 10px;
     border: 1px solid transparent;
-    min-width: 72px;
+    min-width: 68px;
     line-height: 1;
   }
 
@@ -212,18 +232,16 @@
 
   .board-nav .code {
     font-weight: 700;
-    font-size: 14px;
+    font-size: 13px;
     letter-spacing: 0.5px;
+    color: #ffaaaa;
   }
 
   .board-nav .label {
     font-size: 10px;
-    opacity: 0.95;
+    opacity: 0.9;
     margin-top: 2px;
-    letter-spacing: 0.3px;
   }
-
-
 
   .page-center {
     flex: 1;
@@ -244,16 +262,19 @@
     background: #ffffee;
     padding: 0 0 20px;
     text-align: center;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(128,0,0,0.18);
   }
 
   .topbar {
-    background: #800000;
+    background: linear-gradient(to right, #800000, #cc3333);
     color: #fff;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: bold;
     letter-spacing: 1px;
-    padding: 4px 10px;
-    text-align: left;
+    padding: 7px 10px;
+    position: relative;
   }
 
   .banner-block img {
@@ -272,66 +293,17 @@
     margin: 14px 0;
   }
 
-  .motd {
-    border: 1px dashed #800000;
-    background: #eae9d9;
-    padding: 8px 10px;
-    font-size: 11px;
-    line-height: 1.5;
-    color: #800000;
-    text-align: left;
-  }
-
-  .motd-prompt {
-    font-weight: 700;
+  .slug {
     color: #cc0000;
-  }
-
-  .boards-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-    text-align: left;
-    margin: 6px 0;
-  }
-
-  .boards-grid > :last-child:nth-child(3n + 1) {
-    grid-column: 2;
-  }
-
-  .board-card {
-    border: 1px solid #800000;
-    background: #eae9d9;
-    padding: 12px 10px;
-    text-decoration: none;
-    color: #800000;
-    display: block;
-    transition:
-      background 0.12s,
-      transform 0.08s;
-  }
-
-  .board-card:hover {
-    background: #fff;
-    transform: translateY(-1px);
-    box-shadow: 1px 1px 0 #800000;
-  }
-
-  .board-card.adult {
-    border-style: dashed;
-  }
-
-  .board-code {
     font-weight: 700;
-    font-size: 13px;
-    letter-spacing: 0.6px;
-    margin-bottom: 4px;
   }
 
-  .board-desc {
-    font-size: 11px;
-    line-height: 1.4;
-    color: #5a0000;
+  .slug-link {
+    text-decoration: none;
+  }
+
+  .slug-link:hover .slug {
+    text-decoration: underline;
   }
 
   .contact-line {
@@ -344,38 +316,194 @@
     color: #0000ee;
   }
 
+  .about-box {
+    text-align: left;
+    margin: 6px 0;
+    border-radius: 10px;
+    overflow: visible;
+    border: 1px solid #a00000;
+    box-shadow: 0 2px 8px rgba(128,0,0,0.15);
+  }
+
+  .about-title {
+    background: linear-gradient(to right, #800000, #cc3333);
+    color: #fff;
+    font-weight: bold;
+    font-size: 13px;
+    padding: 7px 12px;
+    border-radius: 9px 9px 0 0;
+    position: relative;
+    overflow: visible;
+  }
+
+  .teto {
+    position: absolute;
+    bottom: 85%;
+    right: -5px;
+    height: 70px;
+    width: auto;
+    pointer-events: none;
+    image-rendering: auto;
+  }
+
+  .about-body {
+    background: transparent;
+    padding: 10px 14px;
+    font-size: 12px;
+    color: #222;
+    line-height: 1.8;
+    border-radius: 0 0 9px 9px;
+  }
+
+  .about-body p {
+    margin-bottom: 4px;
+  }
+
+  .welcome-block {
+    padding: 18px 0 10px;
+    text-align: center;
+  }
+
+  .welcome-sub {
+    font-size: 11px;
+    color: #5a0000;
+    margin-top: 6px;
+    letter-spacing: 0.3px;
+  }
+
+  .glitch {
+    position: relative;
+    display: inline-block;
+    font-size: 26px;
+    font-weight: 700;
+    color: #800000;
+    letter-spacing: 2px;
+  }
+
+  .glitch::before,
+  .glitch::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: 2px;
+  }
+
+  .glitch::before {
+    color: #cc0000;
+    text-shadow: 2px 0 #cc0000;
+    clip-path: inset(0 0 60% 0);
+    animation: glitch-top 3.5s infinite steps(1);
+  }
+
+  .glitch::after {
+    color: #5a0000;
+    text-shadow: -2px 0 #5a0000;
+    clip-path: inset(60% 0 0 0);
+    animation: glitch-bottom 3.5s infinite steps(1);
+  }
+
+  @keyframes glitch-top {
+    0%   { clip-path: inset(0 0 80% 0);   transform: translate(-2px, 0); }
+    10%  { clip-path: inset(10% 0 70% 0); transform: translate( 2px, 0); }
+    20%  { clip-path: inset(20% 0 50% 0); transform: translate(-1px, 0); }
+    30%  { clip-path: inset(0 0 90% 0);   transform: translate( 3px, 0); }
+    40%  { clip-path: inset(30% 0 60% 0); transform: translate(-2px, 0); }
+    50%  { clip-path: inset(5% 0 75% 0);  transform: translate( 0,   0); }
+    60%  { clip-path: inset(0 0 80% 0);   transform: translate( 2px, 0); }
+    70%  { clip-path: inset(15% 0 65% 0); transform: translate(-3px, 0); }
+    80%  { clip-path: inset(0 0 85% 0);   transform: translate( 1px, 0); }
+    90%  { clip-path: inset(25% 0 55% 0); transform: translate(-1px, 0); }
+    100% { clip-path: inset(0 0 80% 0);   transform: translate( 2px, 0); }
+  }
+
+  @keyframes glitch-bottom {
+    0%   { clip-path: inset(70% 0 0 0); transform: translate( 2px, 0); }
+    10%  { clip-path: inset(60% 0 0 0); transform: translate(-2px, 0); }
+    20%  { clip-path: inset(75% 0 0 0); transform: translate( 1px, 0); }
+    30%  { clip-path: inset(55% 0 0 0); transform: translate(-3px, 0); }
+    40%  { clip-path: inset(80% 0 0 0); transform: translate( 2px, 0); }
+    50%  { clip-path: inset(65% 0 0 0); transform: translate( 0,   0); }
+    60%  { clip-path: inset(70% 0 0 0); transform: translate(-2px, 0); }
+    70%  { clip-path: inset(50% 0 0 0); transform: translate( 3px, 0); }
+    80%  { clip-path: inset(75% 0 0 0); transform: translate(-1px, 0); }
+    90%  { clip-path: inset(60% 0 0 0); transform: translate( 1px, 0); }
+    100% { clip-path: inset(70% 0 0 0); transform: translate(-2px, 0); }
+  }
+
   .site-footer {
     background-color: #eae9d9;
     border-top: 1px solid #c8c7b4;
-    padding: 18px 20px 90px;
+    padding: 0 0 90px;
     text-align: center;
     position: relative;
   }
 
-  .footer-links {
-    font-size: 12px;
-    color: #34345c;
-    margin-bottom: 10px;
+  .footer-stats-header {
+    background: linear-gradient(to bottom, #f0c8b0, #e8a898);
+    border: 1px solid #c8876c;
+    font-size: 13px;
+    font-weight: bold;
+    color: #800000;
+    text-align: left;
+    padding: 4px 10px;
+    margin: 14px auto 0;
+    max-width: 900px;
   }
 
-  .footer-links a {
+  .footer-stats-row {
+    background: linear-gradient(to bottom, #f8e0d8, #f0d0c0);
+    border: 1px solid #c8876c;
+    border-top: none;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 8px 16px;
+    font-size: 12px;
+    color: #000;
+    margin: 0 auto 10px;
+    max-width: 900px;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .footer-stats-row strong {
+    color: #800000;
+  }
+
+  .footer-nav {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 8px auto 12px;
+  }
+
+  .footer-nav a {
+    display: inline-block;
+    border: 1px solid #aaa;
+    background: #f0f0e8;
     color: #34345c;
     text-decoration: none;
+    font-size: 12px;
+    padding: 4px 12px;
+    margin: 2px;
+    line-height: 1.5;
   }
 
-  .footer-links a:hover {
-    text-decoration: underline;
+  .footer-nav a:hover {
+    background: #ffffee;
     color: #800000;
-  }
-
-  .footer-sep {
-    margin: 0 5px;
-    color: #800000;
+    border-color: #800000;
   }
 
   .footer-copy {
-    font-size: 12px;
+    font-size: 11px;
     color: #800000;
+    padding: 0 20px 10px;
   }
 
   .corner-img {
@@ -392,33 +520,28 @@
     .header-inner {
       flex-wrap: wrap;
       justify-content: center;
+      gap: 6px;
     }
+
     .brand {
+      order: -1;
+      margin-left: 0;
+      width: 100%;
+      justify-content: flex-start;
+    }
+
+    .board-nav {
       width: 100%;
       justify-content: center;
     }
+
     .board-nav a {
-      min-width: 64px;
+      min-width: 60px;
       padding: 4px 8px;
-    }
-    .boards-grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
-    .boards-grid > :last-child:nth-child(3n + 1) {
-      grid-column: auto;
-    }
-    .boards-grid > :last-child:nth-child(2n + 1) {
-      grid-column: 1 / span 2;
-      max-width: calc(50% - 5px);
-      justify-self: center;
-      width: 100%;
     }
   }
 
   @media (max-width: 420px) {
-    .boards-grid {
-      grid-template-columns: 1fr;
-    }
     .inner {
       padding: 0 14px;
     }
