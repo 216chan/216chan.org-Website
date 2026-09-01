@@ -35,14 +35,14 @@
   <meta property="og:url" content="https://216chan.org/" />
   <meta property="og:title" content="216chan" />
   <meta property="og:description" content="216chan is a Tunisian imageboard. General, Programming, Videogames, STEM, Technology, Adult." />
-  <meta property="og:image" content="https://216chan.org/icons/banner.png" />
+  <meta property="og:image" content="https://frontend-production-aff6.up.railway.app/icons/banner.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta property="og:site_name" content="216chan" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="216chan" />
   <meta name="twitter:description" content="216chan is a Tunisian imageboard. General, Programming, Videogames, STEM, Technology, Adult." />
-  <meta name="twitter:image" content="https://216chan.org/icons/banner.png" />
+  <meta name="twitter:image" content="https://frontend-production-aff6.up.railway.app/icons/banner.png" />
 </svelte:head>
 
 <header class="site-header">
