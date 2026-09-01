@@ -29,20 +29,24 @@
 </script>
 
 <svelte:head>
-  <title>216chan</title>
+  <title>216chan — Tunisian Imageboard</title>
   <link rel="icon" type="image/png" href="/icons/216.png" />
+
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://216chan.org/" />
-  <meta property="og:title" content="216chan" />
-  <meta property="og:description" content="216chan is a Tunisian imageboard. General, Programming, Videogames, STEM, Technology, Adult." />
-  <meta property="og:image" content="https://frontend-production-aff6.up.railway.app/icons/banner.png" />
-  <meta property="og:image:width" content="1200" />
-  <meta property="og:image:height" content="630" />
   <meta property="og:site_name" content="216chan" />
+  <meta property="og:title" content="216chan — Tunisian Imageboard" />
+  <meta property="og:description" content="216chan is an anonymous Tunisian imageboard. Post freely across /g/ /p/ /v/ /s/ /t/ /a/ /b/ — no registration, no bullshit." />
+  <meta property="og:image" content="https://frontend-production-aff6.up.railway.app/icons/embed.png" />
+  <meta property="og:url" content="https://216chan.org/" />
+  <meta property="og:theme_color" content="#800000" />
+
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="216chan" />
-  <meta name="twitter:description" content="216chan is a Tunisian imageboard. General, Programming, Videogames, STEM, Technology, Adult." />
-  <meta name="twitter:image" content="https://frontend-production-aff6.up.railway.app/icons/banner.png" />
+  <meta name="twitter:title" content="216chan — Tunisian Imageboard" />
+  <meta name="twitter:description" content="216chan is an anonymous Tunisian imageboard. Post freely across /g/ /p/ /v/ /s/ /t/ /a/ /b/ — no registration, no bullshit." />
+  <meta name="twitter:image" content="https://frontend-production-aff6.up.railway.app/icons/embed.png" />
+
+  <meta name="theme-color" content="#800000" />
+  <meta name="description" content="216chan is an anonymous Tunisian imageboard. Post freely across /g/ /p/ /v/ /s/ /t/ /a/ /b/ — no registration, no bullshit." />
 </svelte:head>
 
 <header class="site-header">
@@ -91,7 +95,6 @@
 
       <div class="banner-block">
         <img src="/icons/banner.png" alt="216chan banner" />
-        <img class="banner-watermark" src="/icons/216chan-logo.png" alt="" aria-hidden="true" />
       </div>
 
       <div class="inner">
@@ -280,25 +283,10 @@
     position: relative;
   }
 
-  .banner-block {
-    position: relative;
-    line-height: 0;
-  }
-
-  .banner-block img:first-child {
+  .banner-block img {
     width: 100%;
     height: auto;
     display: block;
-  }
-
-  .banner-watermark {
-    position: absolute;
-    bottom: 10px;
-    left: 10px;
-    height: 40px;
-    width: auto;
-    opacity: 0.75;
-    pointer-events: none;
   }
 
   .inner {
