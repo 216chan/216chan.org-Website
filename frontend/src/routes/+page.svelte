@@ -35,18 +35,18 @@
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="216chan" />
   <meta property="og:title" content="216chan — Tunisian Imageboard" />
-  <meta property="og:description" content="216chan is an anonymous Tunisian imageboard. Post freely across /g/ /p/ /v/ /s/ /t/ /a/ /b/ — no registration, no bullshit." />
+  <meta property="og:description" content="216chan is a Tunisian imageboard and forum. Post images, start threads, discuss anything — anonymously, across /g/ /p/ /v/ /s/ /t/ /a/ /b/. No registration needed." />
   <meta property="og:image" content="https://frontend-production-aff6.up.railway.app/icons/embed.png" />
   <meta property="og:url" content="https://216chan.org/" />
   <meta property="og:theme_color" content="#800000" />
 
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="216chan — Tunisian Imageboard" />
-  <meta name="twitter:description" content="216chan is an anonymous Tunisian imageboard. Post freely across /g/ /p/ /v/ /s/ /t/ /a/ /b/ — no registration, no bullshit." />
+  <meta name="twitter:description" content="216chan is a Tunisian imageboard and forum. Post images, start threads, discuss anything — anonymously, across /g/ /p/ /v/ /s/ /t/ /a/ /b/. No registration needed." />
   <meta name="twitter:image" content="https://frontend-production-aff6.up.railway.app/icons/embed.png" />
 
   <meta name="theme-color" content="#800000" />
-  <meta name="description" content="216chan is an anonymous Tunisian imageboard. Post freely across /g/ /p/ /v/ /s/ /t/ /a/ /b/ — no registration, no bullshit." />
+  <meta name="description" content="216chan is a Tunisian imageboard and forum. Post images, start threads, discuss anything — anonymously, across /g/ /p/ /v/ /s/ /t/ /a/ /b/. No registration needed." />
 </svelte:head>
 
 <header class="site-header">
@@ -91,7 +91,7 @@
 <div class="page-center">
   <div class="wrapper">
     <div class="board-box">
-      <div class="topbar">[ 216chan.org ]</div>
+      <div class="topbar"></div>
 
       <div class="banner-block">
         <img src="/icons/banner.png" alt="216chan banner" />
