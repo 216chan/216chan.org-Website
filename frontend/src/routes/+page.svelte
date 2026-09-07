@@ -29,24 +29,24 @@
 </script>
 
 <svelte:head>
-  <title>216chan — Tunisian Imageboard</title>
+  <title>216chan - Tunisian Imageboard</title>
   <link rel="icon" type="image/png" href="/icons/216.png" />
 
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="216chan" />
-  <meta property="og:title" content="216chan — Tunisian Imageboard" />
-  <meta property="og:description" content="216chan is a Tunisian imageboard and forum. Post images, start threads, discuss anything — anonymously, across /g/ /p/ /v/ /s/ /t/ /a/ /b/. No registration needed." />
+  <meta property="og:title" content="216chan - Tunisian Imageboard" />
+  <meta property="og:description" content="216chan is a Tunisian imageboard and forum. Post images, start threads, discuss anything - anonymously, across /g/ /p/ /v/ /s/ /t/ /a/ /b/. No registration needed." />
   <meta property="og:image" content="https://frontend-production-aff6.up.railway.app/icons/embed.png" />
   <meta property="og:url" content="https://216chan.org/" />
   <meta property="og:theme_color" content="#800000" />
 
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="216chan — Tunisian Imageboard" />
-  <meta name="twitter:description" content="216chan is a Tunisian imageboard and forum. Post images, start threads, discuss anything — anonymously, across /g/ /p/ /v/ /s/ /t/ /a/ /b/. No registration needed." />
+  <meta name="twitter:title" content="216chan - Tunisian Imageboard" />
+  <meta name="twitter:description" content="216chan is a Tunisian imageboard and forum. Post images, start threads, discuss anything - anonymously, across /g/ /p/ /v/ /s/ /t/ /a/ /b/. No registration needed." />
   <meta name="twitter:image" content="https://frontend-production-aff6.up.railway.app/icons/embed.png" />
 
   <meta name="theme-color" content="#800000" />
-  <meta name="description" content="216chan is a Tunisian imageboard and forum. Post images, start threads, discuss anything — anonymously, across /g/ /p/ /v/ /s/ /t/ /a/ /b/. No registration needed." />
+  <meta name="description" content="216chan is a Tunisian imageboard and forum. Post images, start threads, discuss anything - anonymously, across /g/ /p/ /v/ /s/ /t/ /a/ /b/. No registration needed." />
 </svelte:head>
 
 <header class="site-header">
@@ -102,7 +102,7 @@
 
         <div class="welcome-block">
           <div class="welcome-text glitch" data-text="Welcome to 216chan">Welcome to 216chan</div>
-          <div class="welcome-sub">Tunisian imageboard — anonymous, unfiltered, community-run.</div>
+          <div class="welcome-sub">Tunisian imageboard - anonymous, unfiltered, community-run.</div>
         </div>
 
         <hr />
@@ -148,9 +148,6 @@
 
   <nav class="footer-nav" aria-label="Site links">
     <a href="/">Home</a>
-    <a href="/news">News</a>
-    <a href="/blog">Blog</a>
-    <a href="/faq">FAQ</a>
     <a href="/rules">Rules</a>
     <a href="mailto:contact@216chan.org">Contact</a>
     <a href="https://discord.gg/tunisian" target="_blank" rel="noopener">Discord</a>
