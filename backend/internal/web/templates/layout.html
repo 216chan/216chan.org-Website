@@ -1,0 +1,141 @@
+{{define "layout"}}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{.Title}}</title>
+  <link rel="icon" type="image/png" href="/icons/216.png">
+  <link rel="stylesheet" href="/site.css">
+  <script type="module" src="/site.js"></script>
+  {{if .Canonical}}
+  <meta name="description" content="{{.Description}}">
+  <link rel="canonical" href="{{.Canonical}}">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="216chan">
+  <meta property="og:title" content="{{.Title}}">
+  <meta property="og:description" content="{{.Description}}">
+  <meta property="og:url" content="{{.Canonical}}">
+  <meta property="og:image" content="{{origin}}/icons/embed.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{.Title}}">
+  <meta name="twitter:description" content="{{.Description}}">
+  <meta name="twitter:image" content="{{origin}}/icons/embed.png">
+  {{end}}
+  <meta name="theme-color" content="#800000">
+</head>
+<body class="{{.Kind}}">
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="/" class="brand">
+        <img src="/icons/216.png" alt="216chan logo" width="28" height="28">
+        <span class="brand-text">216chan</span>
+      </a>
+      <nav class="board-nav" aria-label="Boards">
+        {{range .Boards}}
+          <a href="/{{.Slug}}/"{{if eq $.Slug .Slug}} aria-current="page"{{end}}{{if .IsNSFW}} data-nsfw{{end}}>
+            <span class="code">/{{.Slug}}/</span>
+            <span class="label">{{.Name}}</span>
+          </a>
+        {{end}}
+      </nav>
+    </div>
+  </header>
+  {{if .Error}}
+    <div class="err" role="alert">{{.Error}}</div>
+  {{end}}
+  {{if .Notice}}
+    <div class="notice" role="status">{{.Notice}}</div>
+  {{end}}
+  <main>
+    <div class="wrapper">{{template "content" .}}</div>
+  </main>
+  <footer class="site-footer">
+    {{if eq .Kind "home"}}
+      <div class="footer-stats-header">Stats</div>
+      <div class="footer-stats-row">
+        {{with .Stats}}
+          <span><strong>Total Posts:</strong> {{number .TotalPosts}}</span>
+          <span><strong>Visible Threads:</strong> {{number .VisibleThreads}}</span>
+          <span><strong>Posts (24h):</strong> {{number .PostsLastDay}}</span>
+          <span><strong>Media:</strong> {{bytes .MediaBytes}}</span>
+        {{else}}
+          <span>Statistics unavailable.</span>
+        {{end}}
+      </div>
+    {{end}}
+    <nav class="footer-nav" aria-label="Site links">
+      <a href="/">Home</a>
+      <a href="/rules">Rules</a>
+      <a href="mailto:contact@216chan.org">Contact</a>
+      <a href="https://discord.gg/tunisian" target="_blank" rel="noopener">Discord</a>
+      <a href="https://github.com/216chan/216-underwork-website" target="_blank" rel="noopener">Source</a>
+    </nav>
+    <div class="footer-copy">Copyright © Underground Tunisians Community. All rights reserved.</div>
+    {{if eq .Kind "home"}}
+      <img class="corner-img" src="/icons/corner.png" alt="216chan corner">
+    {{end}}
+  </footer>
+</body>
+</html>
+{{end}}
+
+{{define "post"}}
+<article class="post {{if .IsOP}}op{{else}}reply{{end}}" id="post-{{.ID}}">
+  <div class="post-head">
+    <span class="name">anonymous</span>
+    <span class="country" title="IP-based country estimate">[{{.CountryCode}}]</span>
+    <time class="time" datetime="{{isoTime .CreatedAt}}">{{fmtTime .CreatedAt}} UTC</time>
+    <a class="post-link" href="{{.Permalink}}">No.{{.ID}}</a>
+    {{if .IsOP}}<span class="op-tag">[OP]</span>{{end}}
+  </div>
+  {{with .Media}}
+    <div class="file-info">{{.Name}}</div>
+    <button type="button" class="thumb" id="image-{{$.ID}}" popover popovertarget="image-{{$.ID}}" aria-label="Toggle full-size image">
+      <img src="{{.URL}}" alt="{{.Name}}" loading="lazy" decoding="async"{{if .Width}} width="{{.Width}}" height="{{.Height}}"{{end}}>
+    </button>
+  {{end}}
+  <div class="post-body" dir="auto">{{markup .Body}}</div>
+  <div class="report">
+    <button type="button" popovertarget="report-{{.ID}}">Report</button>
+    <form class="report-confirm" id="report-{{.ID}}" popover action="/reports/{{.ID}}" method="post">
+      <p>Report post No.{{.ID}} to staff?</p>
+      <button type="submit">Confirm report</button>
+    </form>
+  </div>
+</article>
+{{end}}
+
+{{define "form"}}
+<form class="form-box panel" method="post" enctype="multipart/form-data" action="{{.Action}}">
+  {{if .Receipt}}<input type="hidden" name="receipt" value="{{.Receipt}}">{{end}}
+  <div class="panel-title">{{if .Thread}}Post a reply{{else}}Create new thread{{end}}</div>
+  <div class="form-body">
+    <label for="body">Body</label>
+    <textarea id="body" name="body" dir="auto" placeholder="Body (max 5000)" rows="4">{{.Body}}</textarea>
+    {{/* maxlength counts UTF-16 units and rejects valid astral text. */}}
+    <output class="form-hint body-count" for="body" hidden></output>
+    <div class="form-row">
+      <label for="image">Image</label>
+      <input id="image" name="image" type="file" accept="image/jpeg,image/png,image/gif,image/webp">
+      <button type="submit">{{if .Thread}}Reply{{else}}Create thread{{end}}</button>
+    </div>
+    <div class="form-hint">jpg png gif webp (animation kept); paste an image to attach it. Input max 16 MiB; stored WebP max 8 MiB.</div>
+  </div>
+</form>
+{{end}}
+
+{{define "pages"}}
+{{if gt .Pages 1}}
+  <nav class="pages" aria-label="Pagination">
+    {{range .PageLinks}}
+      {{if .Number}}
+        <a href="{{.URL}}" aria-label="Page {{.Number}}{{if eq .Number 1}} (first){{else if eq .Number $.Pages}} (last){{end}}"{{if .Active}} aria-current="page"{{end}}>{{.Number}}</a>
+      {{else}}
+        <span aria-hidden="true">…</span>
+      {{end}}
+    {{end}}
+  </nav>
+  <div class="pages-info">Page {{.Page}} / {{.Pages}} - {{.Total}} {{if .Thread}}replies{{else}}threads{{end}}</div>
+{{end}}
+{{end}}

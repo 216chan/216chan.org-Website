@@ -3,9 +3,10 @@ package model
 import "time"
 
 type Stats struct {
-	TotalPosts    int64  `json:"total_posts"`
-	CurrentUsers  int64  `json:"current_users"`
-	ActiveContent string `json:"active_content"`
+	VisibleThreads int64 `json:"visible_threads"`
+	TotalPosts     int64 `json:"total_posts"`
+	PostsLastDay   int64 `json:"posts_24h"`
+	MediaBytes     int64 `json:"visible_media_bytes"`
 }
 
 type Board struct {
@@ -27,31 +28,41 @@ type Thread struct {
 }
 
 type Post struct {
-	ID           int64     `json:"id"`
-	ThreadID     int64     `json:"thread_id"`
-	BoardSlug    string    `json:"board_slug"`
-	IsOP         bool      `json:"is_op"`
-	Body         string    `json:"body"`
-	ImageURL     *string   `json:"image_url"`
-	ImageName    *string   `json:"image_name"`
-	FileSize     *int      `json:"file_size_bytes"`
-	CountryCode  string    `json:"country_code"`
-	CreatedAt    time.Time `json:"created_at"`
+	Permalink   string    `json:"permalink,omitempty"`
+	ID          int64     `json:"id"`
+	ThreadID    int64     `json:"thread_id"`
+	BoardSlug   string    `json:"board_slug"`
+	IsOP        bool      `json:"is_op"`
+	Body        string    `json:"body"`
+	Media       *Media    `json:"media"`
+	CountryCode string    `json:"country_code"`
+	CreatedAt   time.Time `json:"created_at"`
+}
+
+type Media struct {
+	URL    string `json:"url"`
+	Name   string `json:"name"`
+	Size   int    `json:"size_bytes"`
+	Width  int    `json:"width,omitempty"`
+	Height int    `json:"height,omitempty"`
 }
 
 type ThreadWithOP struct {
-	Thread Thread `json:"thread"`
-	OP     *Post  `json:"op"`
-	Replies []Post `json:"replies,omitempty"`
+	Thread  Thread `json:"thread"`
+	OP      Post   `json:"op"`
+	Replies []Post `json:"replies"`
+}
+
+type Pagination struct {
+	Page  int `json:"page"`
+	Pages int `json:"pages"`
+	Total int `json:"total"`
 }
 
 type ThreadsPage struct {
-	Board    Board          `json:"board"`
-	Threads  []ThreadWithOP `json:"threads"`
-	Page     int            `json:"page"`
-	Limit    int            `json:"limit"`
-	Total    int            `json:"total"`
-	Pages    int            `json:"pages"`
+	Board   Board          `json:"board"`
+	Threads []ThreadWithOP `json:"threads"`
+	Pagination
 }
 
 type ThreadPage struct {
@@ -59,8 +70,5 @@ type ThreadPage struct {
 	Thread  Thread `json:"thread"`
 	OP      Post   `json:"op"`
 	Replies []Post `json:"replies"`
-	Page    int    `json:"page"`
-	Limit   int    `json:"limit"`
-	Total   int    `json:"total"`
-	Pages   int    `json:"pages"`
+	Pagination
 }

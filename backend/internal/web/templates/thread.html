@@ -1,0 +1,27 @@
+{{define "content"}}
+<div class="board-box">
+  <div class="topbar">/{{.Slug}}/ - Thread #{{.ThreadID}}</div>
+  <div class="inner">
+    <div class="back-row"><a href="/{{.Slug}}/" class="back">Back to /{{.Slug}}/</a></div>
+    {{with .Thread}}
+      <hr>
+      {{if .Thread.IsPinned}}<div class="pinned-label">[Pinned]</div>{{end}}
+      {{if .Thread.IsLocked}}<div class="locked-label">[Locked] - replies disabled</div>{{end}}
+      {{template "post" .OP}}
+      <hr>
+      {{range .Replies}}
+        {{template "post" .}}
+      {{else}}
+        <div class="empty">No replies yet.</div>
+      {{end}}
+      {{template "pages" $}}
+      <hr>
+      {{if .Thread.IsLocked}}
+        <div class="locked-msg">This thread is locked.</div>
+      {{else}}
+        {{template "form" $}}
+      {{end}}
+    {{end}}
+  </div>
+</div>
+{{end}}

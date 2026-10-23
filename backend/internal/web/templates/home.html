@@ -1,0 +1,42 @@
+{{define "content"}}
+<div class="board-box">
+  <div class="topbar"></div>
+
+  <div class="banner-block">
+    <img src="/icons/banner.png" alt="216chan banner" fetchpriority="high">
+  </div>
+
+  <div class="inner">
+    <hr>
+
+    <div class="welcome-block">
+      <h1 class="glitch" data-text="Welcome to 216chan">Welcome to 216chan</h1>
+      <div class="welcome-sub">Tunisian imageboard - anonymous, unfiltered, community-run.</div>
+    </div>
+
+    <hr>
+
+    <div class="about-box">
+      <h2 class="about-title">
+        What is 216chan?
+        <img class="teto" src="/icons/teto.png" alt="teto">
+      </h2>
+      <div class="about-body">
+        <p>216chan is a Tunisian imageboard, a place where people post images and discuss whatever they want, anonymously.</p>
+        {{range .Boards}}<p><a href="/{{.Slug}}/" class="slug-link"{{if .IsNSFW}} data-nsfw{{end}}><span class="slug">/{{.Slug}}/</span></a> : {{.Description}}</p>
+        {{end}}
+      </div>
+    </div>
+
+    <hr>
+
+    <div class="contact-line">
+      <strong>Contact:</strong>
+      <a href="mailto:contact@216chan.org">contact@216chan.org</a>
+      &nbsp;&bull;&nbsp;
+      <strong>Discord:</strong>
+      <a href="https://discord.gg/tunisian" target="_blank" rel="noopener">discord.gg/tunisian</a>
+    </div>
+  </div>
+</div>
+{{end}}

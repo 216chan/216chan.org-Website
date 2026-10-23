@@ -1,0 +1,30 @@
+{{define "content"}}
+<div class="board-box">
+  <div class="topbar">/{{.Slug}}/ {{with .Board}}- {{.Board.Name}}{{if .Board.IsNSFW}} (NSFW 18+){{end}}{{end}}</div>
+  <div class="inner">
+    {{with .Board}}
+      <div class="board-desc">{{.Board.Description}} - <a href="/rules" class="rules-link">Rules</a></div>
+      <hr>
+      {{template "form" $}}
+      <hr>
+      {{range .Threads}}
+        <section class="thread">
+          <hr class="thread-sep">
+          {{if .Thread.IsPinned}}<div class="pinned-label">[Pinned]</div>{{end}}
+          {{if .Thread.IsLocked}}<div class="locked-label">[Locked]</div>{{end}}
+          {{template "post" .OP}}
+          <div class="replies">
+            {{range .Replies}}{{template "post" .}}{{end}}
+          </div>
+          <div class="thread-foot">
+            <a class="view-thread" href="/{{$.Slug}}/{{.Thread.ID}}">View thread ({{.Thread.ReplyCount}}) →</a>
+          </div>
+        </section>
+      {{else}}
+        <div class="empty">No threads yet. Be the first.</div>
+      {{end}}
+      {{template "pages" $}}
+    {{end}}
+  </div>
+</div>
+{{end}}

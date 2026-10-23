@@ -1,0 +1,27 @@
+{{define "content"}}
+<div class="board-box">
+  <div class="topbar">Rules</div>
+  <div class="inner">
+    <div class="rules-intro">216chan is anonymous. Tunisian law always applies. Break the rules and your post will be removed. No warnings for serious stuff.</div>
+    <hr>
+    <section class="panel">
+      <h2 class="panel-title">Global</h2>
+      <div class="panel-body">
+        <p>1. No CP. No sexual content with minors. Zero tolerance.</p>
+        <p>2. No gore or shock with real people.</p>
+        <p>3. No dox. No personal info without consent.</p>
+        <p>4. No spam, flood, or ads. No crypto scam.</p>
+        <p>5. Use the right board. Off topic posts will be moved or removed.</p>
+      </div>
+    </section>
+    <section class="panel">
+      <h2 class="panel-title">By board</h2>
+      <div class="panel-body">
+        <p>Board rules are in the pinned thread on each board. Check the top thread on {{range .Boards}}<a href="/{{.Slug}}/"{{if .IsNSFW}} data-nsfw{{end}}>/{{.Slug}}/</a> {{end}}</p>
+      </div>
+    </section>
+    <hr>
+    <div class="contact-line">Questions: <a href="mailto:contact@216chan.org">contact@216chan.org</a> - <a href="/">back to home</a></div>
+  </div>
+</div>
+{{end}}

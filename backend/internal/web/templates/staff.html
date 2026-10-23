@@ -1,0 +1,12 @@
+{{define "content"}}{{with .Staff}}
+<h1>Staff review</h1>
+<p>Signed in as {{.Actor}} · <a href="/staff">Queue</a> · <a href="/">Home</a></p>
+<form action="/staff" method="get"><label>Post ID <input name="post" type="number" min="1" required></label><button>Open</button></form>
+{{with .Detail}}<h2>Post {{.ID}}</h2><p>State: {{.State}}; exposed: {{.Exposed}}; revision: {{.Revision}}</p><pre dir="auto">{{.Body}}</pre>{{if .HasMedia}}<img class="retained" alt="Retained post media" src="/staff/media/{{.ID}}">{{end}}<p>Conversation {{.ConversationID}} on /{{.Board}}/</p>{{end}}
+{{range .Queue}}<article><a href="/staff?post={{.PostID}}">Post {{.PostID}}</a> — own state: {{.State}}; exposed: {{.Exposed}}<pre dir="auto">{{.Body}}</pre></article>{{else}}{{if not .Detail}}<p>No open reports on this page.</p>{{end}}{{end}}
+{{range .Forms}}<form method="post" action="/staff"><input type="hidden" name="action" value="{{.Action}}"><input type="hidden" name="target" value="{{.Target}}"><input type="hidden" name="revision" value="{{.Revision}}"><input type="hidden" name="csrf" value="{{.Token}}">
+<p>{{.Action}} {{.Target}} (revision {{.Revision}})</p>
+{{if eq .Action "configure"}}{{with $.Staff.Detail}}<label>Board <input name="board" value="{{.Board}}" required maxlength="16"></label><label><input type="checkbox" name="locked" {{if .Locked}}checked{{end}}> Locked</label><label><input type="checkbox" name="pinned" {{if .Pinned}}checked{{end}}> Pinned</label>{{end}}{{end}}
+<label>Reason <input name="reason" required></label>{{if eq .Action "erased"}}<label><input type="checkbox" name="confirm" value="erase" required> Permanently erase this post's payload</label>{{end}}<button>{{.Action}}</button></form>{{end}}
+{{if not .Detail}}<a href="/staff?page={{.Next}}">Next review page</a>{{end}}
+{{end}}{{end}}
